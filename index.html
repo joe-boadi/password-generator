@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Password generator tool with adjustable settings for character length, symbol inclusion, and strength evaluation.">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <header>
+            <h1>Password Generator</h1>
+        </header>
+        <!-- Password Display Section -->
+        <section aria-labelledby="generated-password" id="generated-password" class="password-section">
+            <span class="password" id="passwordOutput" aria-live="polite">PTx1f5DaFX</span>
+            <img src="./assets/images/icon-copy.svg" class="copy-btn" alt="Copy icon" id="copyButton">
+        </section>
+
+        <!-- Settings Section -->
+            <section class="second-container">
+               <div class="characters">
+                <label for="lengthSlider" class="setting-label">Character Length</label>
+                <span class="lengthValue">10</span>
+               </div>
+                <div class="slider-container">
+                    <input type="range" id="lengthSlider" name="lengthSlider" min="1" max="20" value="10"
+                        aria-valuemin="1" aria-valuemax="20" aria-valuenow="10"
+                        aria-label="Set password character length" />
+                </div>
+                <!-- Checkbox Settings -->
+                <ul class="checkbox-list">
+                    <li>
+                        <label>
+                            <input type="checkbox" checked id="upperCaseCheckbox">
+                            Include Uppercase Letters
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" checked id="lowerCaseCheckbox">
+                            Include Lowercase Letters
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" checked id="numbersCheckbox">
+                            Include Numbers
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox" id="symbolsCheckbox">
+                            Include Symbols
+                        </label>
+                    </li>
+                </ul>
+                <!-- Strength Indicator -->
+                <div class="strength-container">
+                    <label for="strength" class="strength-label">Strength</label>
+                    <div id="strength" class="strength-display">
+                        <span class="strengthLabel"></span>
+                        <div class="strength-bars">
+                            <span class="bar" id="too-weak"></span>
+                            <span class="bar" id="weak"></span>
+                            <span class="bar" id="medium"></span>
+                            <span class="bar" id="strong"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Generate Button -->
+                <button class="generate-btn" id="generateButton" aria-label="Generate new password">
+                    Generate <span aria-hidden="true"><svg class="fill-icon" width="12" height="12" xmlns="http://www.w3.org/2000/svg"><path d="m5.106 12 6-6-6-6-1.265 1.265 3.841 3.84H.001v1.79h7.681l-3.841 3.84z"/></svg></span>
+                </button>
+            </section>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
