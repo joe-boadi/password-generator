@@ -78,11 +78,10 @@ img:hover{
 
 /* Slider Styling */
 input[type="range"] {
-    -webkit-appearance: none; 
-    appearance: none;
     width: 100%;
+    accent-color: #A4FFAF;
     height: 6px;
-    background: #18171F;
+    /* background: #18171F; */
     border-radius: 3px;
     outline: none;
     cursor: pointer;
