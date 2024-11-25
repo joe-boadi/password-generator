@@ -37,9 +37,11 @@ class PasswordGenerator {
       this.copyButton.addEventListener('click', this.copyPassword.bind(this));
   }
 
-  sliderEvent(event) {
-     this.lengthValue = event.target.value;
-  }
+  // TODO: Implement slider change and update
+  // TODO: Implement strength bar change and update
+  // sliderEvent(event) {
+  //    this.lengthValue = event.target.value;
+  // }
 
   updateLength() {
       this.length = parseInt(this.lengthSlider.value);
