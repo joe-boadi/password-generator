@@ -1,102 +1,109 @@
-class PasswordGenerator {
-  constructor() {
-      this.length = 10;
-      this.uppercase = false;
-      this.lowercase = false;
-      this.numbers = false;
-      this.symbols = false;
+import PasswordGenerator from "./script.js";
 
-      this.init();
-  }
+document.addEventListener("DOMContentLoaded", () => {
 
-  init() {
-      // Elements
-      this.lengthSlider = document.getElementById('lengthSlider');
-      this.lengthValue = document.getElementById('lengthValue');
-      this.uppercaseCheckbox = document.getElementById('upperCaseCheckbox');
-      this.lowercaseCheckbox = document.getElementById('lowerCaseCheckbox');
-      this.numbersCheckbox = document.getElementById('numbersCheckbox');
-      this.symbolsCheckbox = document.getElementById('symbolsCheckbox');
-      this.passwordOutput = document.getElementById('passwordOutput');
-      this.generateButton = document.getElementById('generateButton');
-      this.copyButton = document.getElementById('copyButton');
-      this.strengthBars = document.querySelectorAll('.strength-bars .bar');
-      this.strengthLabel = document.getElementById('strengthLabel');
+    const lengthSlider = document.getElementById('lengthSlider');
+    const lengthValue = document.getElementById('lengthValue');
+    const uppercaseCheckbox = document.getElementById('upperCaseCheckbox');
+    const lowercaseCheckbox = document.getElementById('lowerCaseCheckbox');
+    const numbersCheckbox = document.getElementById('numbersCheckbox');
+    const symbolsCheckbox = document.getElementById('symbolsCheckbox');
+    const passwordOutput = document.getElementById('passwordOutput');
+    const generateButton = document.getElementById('generateButton');
+    const copyButton = document.getElementById('copyButton');
+    const strengthBars = document.querySelectorAll('.strength-bars .bar');
+    const strengthLabel= document.getElementById('strengthLabel');
 
-      // Event Listeners
-      this.addEventListeners();
-  }
+    const passwordGenerator = new PasswordGenerator();
 
-  addEventListeners() {
-      this.lengthSlider.addEventListener('input', this.updateLength.bind(this));
-      this.uppercaseCheckbox.addEventListener('change', this.updateCriteria.bind(this));
-      this.lowercaseCheckbox.addEventListener('change', this.updateCriteria.bind(this));
-      this.numbersCheckbox.addEventListener('change', this.updateCriteria.bind(this));
-      this.symbolsCheckbox.addEventListener('change', this.updateCriteria.bind(this));
-      this.generateButton.addEventListener('click', this.generatePassword.bind(this));
-      this.copyButton.addEventListener('click', this.copyPassword.bind(this));
-  }
+    lengthSlider.addEventListener('input', (e) => {
+        lengthValue.textContent = e.target.value;
+    });
 
-  // TODO: Implement slider change and update
-  // TODO: Implement strength bar change and update
-  // sliderEvent(event) {
-  //    this.lengthValue = event.target.value;
-  // }
+    const updateStrengthIndicator = () => {
+        const criteriaCount = [
+            uppercaseCheckbox.checked,
+            lowercaseCheckbox.checked,
+            numbersCheckbox.checked,
+            symbolsCheckbox.checked,
+        ].filter(Boolean).length;
 
-  updateLength() {
-      this.length = parseInt(this.lengthSlider.value);
-      this.lengthValue.textContent = this.length;
-  }
+    };
 
-  updateCriteria() {
-      this.uppercase = this.uppercaseCheckbox.checked;
-      this.lowercase = this.lowercaseCheckbox.checked;
-      this.numbers = this.numbersCheckbox.checked;
-      this.symbols = this.symbolsCheckbox.checked;
-      this.updateStrengthIndicator();
-  }
+    const generatePassword = () => {
+        const options = {
+            uppercase: uppercaseCheckbox.checked,
+            lowercase: lowercaseCheckbox.checked,
+            numbers: numbersCheckbox.checked,
+            symbols: symbolsCheckbox.checked,
+        };
 
-  generatePassword() {
+        try {
+            const password = passwordGenerator.generate(lengthSlider.value, options);
+            passwordOutput.textContent = password;
+        } catch (error) {
+            passwordOutput.textContent = error.message;
+        }
 
-    console.log("Yoot! Generating password");
-    
-      const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      const lowerChars = "abcdefghijklmnopqrstuvwxyz";
-      const numChars = "0123456789";
-      const symbolChars = "!@#$%^&*()_+[]{}|;:,.<>?/";
+        const criteriaCount = [
+            uppercaseCheckbox.checked,
+            lowercaseCheckbox.checked,
+            numbersCheckbox.checked,
+            symbolsCheckbox.checked,
+        ].filter(Boolean).length;
 
-      let characters = '';
-      if (this.uppercase) characters += upperChars;
-      if (this.lowercase) characters += lowerChars;
-      if (this.numbers) characters += numChars;
-      if (this.symbols) characters += symbolChars;
+        let strengthMessage;
+       let  strength
 
-      let password = '';
-      for (let i = 0; i < this.length; i++) {
-          password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
+        // console.log("lengthSlider",lengthSlider.value)
 
-      this.passwordOutput.textContent = password || 'Select Criteria';
-  }
+        if (lengthSlider.value < 8) {
+            strengthMessage = 'TOO WEAK!'
+            strength = 1
+        } else if(lengthSlider.value >= 8 && criteriaCount ===1) {
+            strengthMessage = 'WEAK'
+            strength = 2
+        } else if(lengthSlider.value >= 8 && criteriaCount >= 2 && lengthSlider.value < 12) {
+            strengthMessage = 'MEDIUM'
+            strength = 3
+        } else if(lengthSlider.value >= 12  && criteriaCount >= 3){
+            strengthMessage = 'STRONG'
+            strength = 4
+        } else{
+            strengthMessage = 'TOO WEAK!'
+        }
 
-  updateStrengthIndicator() {
-      const criteriaCount = [this.uppercase, this.lowercase, this.numbers, this.symbols].filter(Boolean).length;
-      const strengthLevels = ['Too Weak', 'Weak', 'Medium', 'Strong'];
+        strengthBars.forEach(bar=> bar.style.backgroundColor = "transparent")
 
-      // Update Label
-      this.strengthLabel.textContent = strengthLevels[criteriaCount - 1] || 'Too Weak';
 
-      // Update Bars
-      this.strengthBars.forEach((bar, index) => {
-          bar.classList.toggle('active', index < criteriaCount);
-      });
-  }
+        const colorIndicator = {
+           "TOO WEAK!": '#F64A4A',
+            WEAK: '#FB7C58',
+            MEDIUM: '#F8CD65',
+            STRONG: '#A4FFAF',
+        }
 
-  copyPassword() {
-      navigator.clipboard.writeText(this.passwordOutput.textContent);
-      alert('Password copied to clipboard!');
-  }
-}
+        // console.log(strengthMessage);
+        strengthLabel.textContent = strengthMessage;
 
-// Initialize the password generator
-new PasswordGenerator();
+
+        console.log("strength",strength)
+        for (let i=0; i<strength; i++) {
+            strengthBars[i].style.backgroundColor = colorIndicator[strengthMessage]
+            console.log(strengthBars[i].style.backgroundColor);
+        }
+    };
+
+    const copyPassword = () => {
+        navigator.clipboard.writeText(passwordOutput.textContent);
+        alert('Invalid!');
+    };
+
+    uppercaseCheckbox.addEventListener('change', updateStrengthIndicator);
+    lowercaseCheckbox.addEventListener('change', updateStrengthIndicator);
+    numbersCheckbox.addEventListener('change', updateStrengthIndicator);
+    symbolsCheckbox.addEventListener('change', updateStrengthIndicator);
+    generateButton.addEventListener('click', generatePassword);
+    copyButton.addEventListener('click', copyPassword);
+
+});

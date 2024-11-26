@@ -28,7 +28,7 @@
             <section class="second-container">
                <div class="characters">
                 <label for="lengthSlider" class="setting-label">Character Length</label>
-                <span class="lengthValue">10</span>
+                <span id="lengthValue" class="lengthValue">10</span>
                </div>
                 <div class="slider-container">
                     <input type="range" id="lengthSlider" name="lengthSlider" min="1" max="20" value="10"
@@ -66,12 +66,12 @@
                 <div class="strength-container">
                     <label for="strength" class="strength-label">Strength</label>
                     <div id="strength" class="strength-display">
-                        <span class="strengthLabel"></span>
+                        <span class="strengthLabel" id="strengthLabel"></span>
                         <div class="strength-bars">
-                            <span class="bar" id="too-weak"></span>
-                            <span class="bar" id="weak"></span>
-                            <span class="bar" id="medium"></span>
-                            <span class="bar" id="strong"></span>
+                            <span class="bar" id="bar"></span>
+                            <span class="bar" id="bar"></span>
+                            <span class="bar" id="bar"></span>
+                            <span class="bar" id="bar"></span>
                         </div>
                     </div>
                 </div>
@@ -81,6 +81,6 @@
                 </button>
             </section>
     </main>
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
